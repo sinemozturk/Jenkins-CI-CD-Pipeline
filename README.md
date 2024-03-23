@@ -201,3 +201,28 @@ Here are some common types of plugins in Jenkins:
 
 In Jenkins, the "Global Tool Configuration" section allows administrators to configure and manage global tools that can be used across all Jenkins jobs. These tools typically include build tools, version control tools, JDK installations, and other command-line utilities required for software development and build processes.
 
+- Navigate the `Global Tool Configuration` bar on dashboard. We will configure Java, Maven, Docker and Dependency-Check.
+
+![](./images/global%20tool%20conf.PNG)
+
+    - For Java `JDK` give name as `jdk`, click `Install automatically` and choose the version of jdk. You can see in details with following; 
+
+    ![](./images/tool%20jdk%20config.PNG)
+
+    - For Maven  give name as `maven`, click `Install automatically` and choose the version of maven. You can see in details ;
+
+    ![](./images/maven.PNG)
+
+    - For Dependency-Check give name as `dp`, click `Install automatically` and choose the version of maven. You can see in details ;
+
+    ![](./images/dependency.PNG)
+
+    - For Docker give name as `docker`, click `Install automatically` and choose the version of maven. You can see in details ;
+
+    ![](./images/docker.PNG)
+
+
+    - Save and Apply changes. 
+
+
+## 
