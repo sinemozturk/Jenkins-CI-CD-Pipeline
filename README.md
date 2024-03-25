@@ -174,6 +174,7 @@ Here are some common types of plugins in Jenkins:
 
 - `Utility Plugins:` Utility plugins provide miscellaneous functionality to Jenkins, such as parameterized builds, build triggers, environment variable manipulation, etc.
 
+# Manage Jenkins
 
 ## Install Required Plugins for This Project
 
@@ -232,4 +233,60 @@ In Jenkins, the "Configure System" section allows administrators to configure gl
 
 ![](./images/configure%20system.PNG)
 
-- Configure system is where you can configure different servers. For example when we're using sonarqube, we're pushing reports. To be able to connect different servers, tool we need to configure the systems in Jenkins. In our project we'll use SonarQube. 
+- Configure system is where you can configure different servers. For example when we're using sonarqube, we're pushing reports. To be able to connect different servers, tool we need to configure the systems in Jenkins. 
+
+
+## Manage Nodes and Clouds
+
+
+In Jenkins, managing nodes and clouds involves configuring and maintaining the infrastructure where your jobs will run. Nodes represent individual machines (whether physical or virtual) that Jenkins can use to execute tasks, while clouds represent groups of nodes that can be dynamically provisioned and removed based on workload.
+
+![](./images/manage%20nodes%20and%20cloud.PNG)
+
+
+- Manage Nodes & Cloud is where you can see which nodes, VMs or Slaves are being used to run your projects.
+
+# **Security**
+"Security" under "Manage Jenkins" is the section where you can configure authentication, authorization, and other security-related settings to control user access and permissions within your Jenkins instance.
+
+![](./images/security.PNG)
+
+### Configure Global Security
+
+This section allows you to configure authentication and authorization settings for Jenkins, including options for enabling security, setting up authentication realms (such as LDAP, Active Directory, etc.), defining authorization strategies (such as matrix-based security, role-based access control), and managing user permissions.
+
+### Credentials
+
+In this section, you can manage credentials used by Jenkins for various purposes, such as connecting to source code repositories, accessing external systems, or running jobs. You can add, edit, delete, and organize credentials, including usernames and passwords, SSH keys, secret text, certificates, and more.
+
+### Credential Providers
+
+Here, you can configure credential providers that Jenkins can use to retrieve credentials dynamically, allowing you to manage credentials externally or integrate with third-party credential management systems. Examples include the Jenkins own database, Jenkins global credentials, Windows Credentials, SSH user private key, and more.
+
+### Manage Users
+
+This section provides user management capabilities, allowing administrators to view, create, edit, and delete user accounts in Jenkins. You can also assign roles, groups, and permissions to users, manage user passwords, and configure other user-related settings.
+
+
+# What is JOB ?
+
+![](./images/jobs.PNG)
+
+- In Jenkins, a `"job" ` refers to a specific `task` or `process` that Jenkins can execute as part of a `continuous integration (CI)` or `continuous delivery (CD)` pipeline. Jobs are typically configured to perform actions such as compiling code, running tests, deploying applications, or executing other custom scripts or commands.
+
+- Each job in Jenkins is configured with its own set of parameters, such as the source code repository to monitor, build triggers (e.g., polling SCM, webhook notifications), build steps (e.g., shell commands, Maven targets, Gradle tasks), post-build actions (e.g., sending notifications, archiving artifacts, triggering downstream jobs), and other settings related to environment configuration, build parameters, and version control integration.
+
+- Jobs in Jenkins are organized within "job views" or folders, allowing users to categorize and manage related jobs more efficiently. Additionally, Jenkins provides features for tracking job history, monitoring build status, and analyzing build trends through various built-in reports and visualizations.
+
+Overall, jobs are the fundamental building blocks of automation in Jenkins, enabling developers and teams to automate software development processes and streamline the delivery of software products.
+
+
+
+
+
+
+
+
+
+
+
