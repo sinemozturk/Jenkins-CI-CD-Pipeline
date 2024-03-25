@@ -28,7 +28,7 @@ Jenkins is an open-source automation server that helps automate the non-human pa
 - To begin the project, I initiated the server creation process on AWS using the Ubuntu Server 20.04 LTS (HVM), SSD Volume Type AMI. I opted for a t2.micro instance type with an 8 GB volume. For security configuration, I set up a Security Group allowing SSH access on port 22 and HTTP access on port 8080. This setup provides a solid foundation for further development and deployment within the AWS.
 
     - AMI: Ubuntu Server 20.04 LTS (HVM), SSD Volume Type
-    - Instance Type: t2.micro
+    - Instance Type: t2.medium
     - Volume: 8 GB
     - Security Group Ports (Inbound Rules): SSH (22), custom tcp (8082) 
 
@@ -65,6 +65,15 @@ sudo apt install openjdk-11-jre -y
 - Output: 
 
 ![](./images/java%20intalled.PNG)
+
+
+- We will use a java source code we need maven to build so install maven
+
+```bash
+sudo apt install maven
+
+```
+
 
 - You can always check the version with ` java --version ` command.
 
@@ -184,20 +193,20 @@ Here are some common types of plugins in Jenkins:
 
     - write `jdk` on search bar and click and install without restart following plugins;
         - `Eclipse Temurin installer`
-        - `openJDK-native-pluginVersion `
+        - `openJDK-native-plugin `
 
         ![](./images/jdk%20plugins.PNG)
 
     - write ` owasp ` on search bar and click and install without restart following plugins;
         - `OWASP Dependency-CheckVersion 5.5.0 `  
     - write ` docker ` on search bar and click and install without restart following plugins;
-        - `DockerVersion`
-        - `Docker PipelineVersion`
-        - `docker-build-stepVersion`
-        - `CloudBees Docker Build and PublishVersion`
+        - `Docker`
+        - `Docker Pipeline`
+        - `docker-build-step`
+        - `CloudBees Docker Build and Publish`
     - write ` sonarqube ` on search bar and click and install without restart following plugins;
-        - `SonarQube ScannerVersion `
-
+        - `SonarQube Scanner `
+c65dc14331cd45c5bbb8a577c2b13996
 ## Global Tool Configuration
 
 In Jenkins, the "Global Tool Configuration" section allows administrators to configure and manage global tools that can be used across all Jenkins jobs. These tools typically include build tools, version control tools, JDK installations, and other command-line utilities required for software development and build processes.
@@ -306,3 +315,76 @@ Overall, jobs are `the fundamental building blocks of automation` in Jenkins, en
 - Now save it and from left side bar choose `build now` to build your project. You can see the detailed logs related the project by clicking build history on `#1`. 
 
 ![](./images/build%20now.PNG)
+
+- As we can see the job run successfully. 
+
+![](./images/build%20run%20success.PNG)
+
+
+- In this project we are going to use `Tomcat` for deployment. Let's download it as well. (It is better to not interrupt previous terminal, just open new terminal to re-connect to your server with ssh connection. )
+
+
+- First let's change the user from ubuntu to root with `sudo su` command and go to `/opt` file with `cd` command.
+
+```bash
+sudo su
+cd /opt
+```
+
+![](./images/sudo%20su.PNG)
+
+- For detailed about download for Tomcat server please go to https://github.com/sinemozturk/Apache-Tomcat-Hands-on.git 
+
+
+```bash
+sudo wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.67/bin/apache-tomcat-9.0.67.tar.gz 
+
+```
+
+![](./images/tomcat%20tar.PNG)
+
+- Extract the zip file
+
+```bash
+sudo tar -xvf apache-tomcat-9.0.67.tar.gz
+```
+
+![](./images/tomcat%20extract.PNG)
+
+
+-  Now we need to make some changes in the tomcat server to make sure Tomcat is allowing the administrative access through its web interface by adding a new user with appropriate roles to the tomcat-user.xml configuration file. Run following command to start making changes.
+
+```bash
+sudo vi tomcat-users.xml
+# ---add-below-line at the end (2nd-last line)----
+# <user username="admin" password="admin1234" roles="admin-gui, manager-gui"/>
+```
+
+![](./images/add%20vi.PNG)
+
+
+- Now we need to create a symbolic link allows for easier access to the Tomcat startup script, enabling users to start Tomcat by simply executing startTomcat from the command line, without needing to navigate to the Tomcat installation directory.
+
+
+```bash
+sudo ln -s /opt/apache-tomcat-9.0.67/bin/startup.sh /usr/bin/startTomcat
+```
+
+- Now we need to create a symbolic link allows for easier access to the Tomcat shutdown script, enabling users to stop Tomcat by simply executing stopTomcat from the command line, without needing to navigate to the Tomcat installation directory.
+
+```bash
+sudo ln -s /opt/apache-tomcat-9.0.67/bin/shutdown.sh /usr/bin/stopTomcat
+```
+
+- Now we need to configure the context.xml file with following command
+
+```bash
+sudo vi /opt/apache-tomcat-9.0.67/webapps/manager/META-INF/context.xml
+
+
+#We need to comment following scripts :
+# <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+  #       allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
+```
+
+![](./images/valve.PNG)
