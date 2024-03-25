@@ -30,7 +30,7 @@ Jenkins is an open-source automation server that helps automate the non-human pa
     - AMI: Ubuntu Server 20.04 LTS (HVM), SSD Volume Type
     - Instance Type: t2.medium
     - Volume: 8 GB
-    - Security Group Ports (Inbound Rules): SSH (22), custom tcp (8082) 
+    - Security Group Ports (Inbound Rules): SSH (22), custom tcp (8082) for jenkins , custom tcp (8080) for tomcat
 
 
 - TCP configuration:
@@ -376,7 +376,7 @@ sudo ln -s /opt/apache-tomcat-9.0.67/bin/startup.sh /usr/bin/startTomcat
 sudo ln -s /opt/apache-tomcat-9.0.67/bin/shutdown.sh /usr/bin/stopTomcat
 ```
 
-- Now we need to configure the context.xml file with following command
+- Now we need to configure  `manager` the context.xml file with following command
 
 ```bash
 sudo vi /opt/apache-tomcat-9.0.67/webapps/manager/META-INF/context.xml
@@ -388,3 +388,74 @@ sudo vi /opt/apache-tomcat-9.0.67/webapps/manager/META-INF/context.xml
 ```
 
 ![](./images/valve.PNG)
+
+- Now we need to configure the `host-manager` in the context.xml file. This file typically contains configuration settings specific to the host-manager web application in Apache Tomcat.
+
+```bash
+sudo vi /opt/apache-tomcat-9.0.67/webapps/host-manager/META-INF/context.xml
+#We need to comment following scripts :
+# Valve className="org.apache.catalina.valves.RemoteAddrValve"
+# allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> 
+```
+
+![](./images/hostmanager.PNG)
+
+
+- Run separetly following commands
+
+```bash
+sudo stopTomcat
+sudo startTomcat
+```
+
+- You can access the tomcat landing page with  `http://<publicIpofyourserver>:8080` do not forget to delete s from https
+
+
+![](./images/tomcat.PNG)
+
+
+- Go back to your jenkins server and find your freestyle project from dashboard and click `configure`on the left side bar. 
+
+![](./images/free-modify.PNG)
+
+
+# Pipeline Project
+
+- Go to dashboad and click `New Item` write a name for your job, and choose `Pipeline`. 
+
+- Click `Discard old builds` write `1` to `Max # of builds to keep` 
+
+![](./images/discard.PNG)
+
+- Scroll down to `Pipeline` and choose `Execute Shell` and write following code; 
+
+
+
+
+```groovy
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/jaiswaladi246/Petclinic.git'
+            }
+        }
+    }
+}
+
+```
+
+
+
+- let's break down this Jenkins pipeline script:
+
+    - `Agent:` The agent directive specifies the type of Jenkins agent to use for running the pipeline. In this case, any is specified, which means the pipeline can run on any available agent in the Jenkins environment.
+
+    - `Stages:` The stages block defines the different stages of the pipeline. Each stage represents a logical division of work in the pipeline.
+
+    - `Stage('Git Checkout'):` This is a stage named "Git Checkout," which indicates that the steps within this stage will perform a Git checkout operation.
+
+    - ``Steps:` The steps block contains the specific actions or steps to be executed within the stage. In this case, it contains a single step that performs a Git checkout operation from a specific branch (main) of a Git repository located at the specified URL (https://github.com/jaiswaladi246/Petclinic.git).
