@@ -225,4 +225,8 @@ In Jenkins, the "Global Tool Configuration" section allows administrators to con
     - Save and Apply changes. 
 
 
-## 
+## Configure System
+
+In Jenkins, the "Configure System" section allows administrators to configure global settings and options that apply to the entire Jenkins environment. This includes settings related to system-wide configurations, tools, security, email notifications, plugin management, and more. 
+
+![](./images/configure%20system.PNG)
