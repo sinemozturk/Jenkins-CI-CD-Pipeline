@@ -278,15 +278,31 @@ This section provides user management capabilities, allowing administrators to v
 
 - Jobs in Jenkins are organized within "job views" or folders, allowing users to categorize and manage related jobs more efficiently. Additionally, Jenkins provides features for tracking job history, monitoring build status, and analyzing build trends through various built-in reports and visualizations.
 
-Overall, jobs are the fundamental building blocks of automation in Jenkins, enabling developers and teams to automate software development processes and streamline the delivery of software products.
+Overall, jobs are `the fundamental building blocks of automation` in Jenkins, enabling developers and teams to automate software development processes and streamline the delivery of software products.
 
 
 
+# FreeStyle Project
+
+- Navigate the Jenkins Dashboard, choose `create a job`.
+
+- Give a name to your project and choose `freestyle project`.
+
+- Scroll down to `Source Code Management` (where we configure the source code) choose `Git` go to https://github.com/jaiswaladi246/Petclinic and copy the URL of the repository. (Thank you for this project!) and paste it under the `Repository URL`. Make sure the repository branch is `main`
+
+![](./images/gittt.PNG)
 
 
+- Since this is the maven based application go to `Build Steps` and choose `Invoke top-level Maven target` tab anc choose version of maven as `maven` and goal section write `clean compile` & `clean package` like following, do not forget to add 2 build steps and configure each separetly. The reason is doing that to show you can add multiple stages into a project.
 
+![](./images/build%20steps.PNG)
 
+- Now scroll down and go to `Post build actions`.The "Post-build Actions" section allows you to define actions that should be performed `after the completion of a build job`. These actions typically include tasks such as `archiving artifacts`, `triggering downstream jobs`, `sending notifications`, p`ublishing reports`, and `cleaning up resources`. But for now we won't do anything. 
 
+![](./images/post%20build%20action.PNG)
 
+- The reason we see the list here is based on our plugins that we installed at the beginning. 
 
+- Now save it and from left side bar choose `build now` to build your project. You can see the detailed logs related the project by clicking build history on `#1`. 
 
+![](./images/build%20now.PNG)
