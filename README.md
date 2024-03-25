@@ -203,23 +203,23 @@ In Jenkins, the "Global Tool Configuration" section allows administrators to con
 
 - Navigate the `Global Tool Configuration` bar on dashboard. We will configure Java, Maven, Docker and Dependency-Check.
 
-![](./images/global%20tool%20conf.PNG)
+    ![](./images/global%20tool%20conf.PNG)
 
     - For Java `JDK` give name as `jdk`, click `Install automatically` and choose the version of jdk. You can see in details with following; 
 
-    ![](./images/tool%20jdk%20config.PNG)
+        ![](./images/tool%20jdk%20config.PNG)
 
     - For Maven  give name as `maven`, click `Install automatically` and choose the version of maven. You can see in details ;
 
-    ![](./images/maven.PNG)
+        ![](./images/maven.PNG)
 
     - For Dependency-Check give name as `dp`, click `Install automatically` and choose the version of maven. You can see in details ;
 
-    ![](./images/dependency.PNG)
+        ![](./images/dependency.PNG)
 
     - For Docker give name as `docker`, click `Install automatically` and choose the version of maven. You can see in details ;
 
-    ![](./images/docker.PNG)
+        ![](./images/docker.PNG)
 
 
     - Save and Apply changes. 
@@ -229,4 +229,7 @@ In Jenkins, the "Global Tool Configuration" section allows administrators to con
 
 In Jenkins, the "Configure System" section allows administrators to configure global settings and options that apply to the entire Jenkins environment. This includes settings related to system-wide configurations, tools, security, email notifications, plugin management, and more. 
 
+
 ![](./images/configure%20system.PNG)
+
+- Configure system is where you can configure different servers. For example when we're using sonarqube, we're pushing reports. To be able to connect different servers, tool we need to configure the systems in Jenkins. In our project we'll use SonarQube. 
