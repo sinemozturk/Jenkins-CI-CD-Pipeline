@@ -458,4 +458,128 @@ pipeline {
 
     - `Stage('Git Checkout'):` This is a stage named "Git Checkout," which indicates that the steps within this stage will perform a Git checkout operation.
 
-    - ``Steps:` The steps block contains the specific actions or steps to be executed within the stage. In this case, it contains a single step that performs a Git checkout operation from a specific branch (main) of a Git repository located at the specified URL (https://github.com/jaiswaladi246/Petclinic.git).
+    - `Steps:` The steps block contains the specific actions or steps to be executed within the stage. In this case, it contains a single step that performs a Git checkout operation from a specific branch (main) of a Git repository located at the specified URL (https://github.com/jaiswaladi246/Petclinic.git).
+
+- And apply changes and go back to pipeline and `Build Now`
+
+![](./images/git%20checkout.PNG)
+
+
+- This is the output of the build. You can see in detail what it does in order.
+
+![](./images/console1.PNG)
+
+- Now we will add different stages into our pipeline to be able do this, go to `pipeline` job and on the left tab navigate to `Configure`. And follow the steps; 
+
+
+- First of all we will use Maven and Java tools in the pipeline script but to be able to achieve this we need to use `tools`  directive at the beginning of our stages.
+
+
+```groovy
+// define the maven and java tools to be able to run their command
+tools{
+    jdk 'jdk11'
+    maven  'maven'
+}
+```
+
+
+- Maven Compile Stage: Add following command under the `Git Checkout ` Stage 
+
+
+
+```groovy
+        stage('Compile') {
+            steps {
+                sh "mvn clean compile"
+            }
+        }
+```
+
+- In this stage:
+
+    - The `sh` step is used to execute the Maven command mvn clean compile.
+    - `mvn clean compile` cleans the project (removes any existing build artifacts) and then compiles the source code.
+
+
+- Now go back to pipeline and build the pipeline with `build now`. You will see the second stage of our pipeline is running perfectly
+
+![](./images/build2.PNG)
+
+
+- You can alwasy go and see the logs (what this stage does?) by clicking build number and go to `console output` as you can see in the following;
+
+![](./images/build%20history.PNG)
+![](./images/consoleoutput.PNG)
+
+- Output will look like this;
+
+![](./images/maven%20compile1.PNG)
+![](./images/maven%20compile2.PNG)
+
+- It appears that your Maven project is successfully compiling 47 source files to the `/root/.jenkins/workspace/pipeline/target/classes` directory. This output indicates that the compilation process is progressing as expected. After the compilation process completes, the compiled classes will be available in the target/classes directory of your Maven project.
+
+- You can the target file see by clicking `Workspaces`
+
+![](./images/workspace.PNG)
+
+
+- Before we go to Maven clean Package Stage;
+
+- Tomcat is not giving access to other users to copy the artifacts. In this part we need to change the permission of apache folder you can learn the details about apache tomcat you can go back to my previous project -> https://github.com/sinemozturk/Apache-Tomcat-Hands-on.git 
+
+    - Go to   /opt folder path by `cd /opt`
+    - run the `ls -lrt` command to see all permission the file has. 
+    - run the `chmod 757 <apache folder name>`
+
+![](./images/chmod.PNG)
+
+- Go and configure the pipeline by adding following stage and build it. 
+
+```groovy
+stage('Build') {
+            steps {
+                sh "mvn clean package"
+            }
+        }
+```
+
+
+- In this stage:
+
+    - The `sh` step is used to execute the Maven command mvn clean package.
+    - `mvn clean package` cleans the project, compiles the source code, runs any tests, and packages the application. The resulting artifact (e.g., JAR, WAR) will be created in the target directory of your Maven project.
+
+![](./images/build2222.PNG)    
+
+
+- You can see the project's war file is being created under the target folder. We are succesfully generated the artifacts.
+
+![](./images/war%20file.PNG)
+
+- Deploy the application by adding following stage to your pipeline and build it. 
+
+
+```groovy
+stage('Deploy') {
+            steps {
+                sh "sudo cp target/petclinic.war /opt/apache-tomcat-9.0.67/webapps" 
+            }
+        }
+```
+
+
+- In this stage:
+
+    - The  `sh` step is used to execute the shell command sudo cp target/petclinic.war /opt/apache-tomcat-9.0.67/webapps, which copies the WAR file generated during the build stage to the Tomcat webapps directory.
+    - Ensure that the path `/opt/apache-tomcat-9.0.67/webapps` corresponds to the correct location of your Tomcat installation's `webapps directory.` Adjust the path accordingly if your Tomcat installation is located in a different directory.
+    - The `sudo` command is used assuming that copying to the Tomcat directory requires elevated permissions. Ensure that Jenkins has appropriate permissions to execute this command using sudo.
+    - `Replace petclinic.war `with the name of your WAR file if it differs.
+    Make sure that Tomcat is properly configured to deploy WAR files from its webapps directory.
+
+![](./images/deploy.PNG)
+
+
+- When you go to your tomcat browser of your jenkins server `http://yourpublicipofjenkinsserver:8080/petclinic` you will be able to see the application is up and running by using jenkins pipeline. 
+
+![](./images/final.PNG)
