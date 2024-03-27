@@ -187,7 +187,7 @@ Here are some common types of plugins in Jenkins:
 
 ## Install Required Plugins for This Project
 
-- Go to `Manage Jenkins` tab, and navigate `Manage Plugins` this is the place where actually you can download project related tools and technologies' plugins. Navifate to `Available Plugins` tab.
+- Go to `Manage Jenkins` tab, and navigate `Manage Plugins` this is the place where actually you can download project related tools and technologies' plugins. Navigate to `Available Plugins` tab.
 
     ![](./images/manage%20plugins.PNG)
 
@@ -206,7 +206,7 @@ Here are some common types of plugins in Jenkins:
         - `CloudBees Docker Build and Publish`
     - write ` sonarqube ` on search bar and click and install without restart following plugins;
         - `SonarQube Scanner `
-c65dc14331cd45c5bbb8a577c2b13996
+
 ## Global Tool Configuration
 
 In Jenkins, the "Global Tool Configuration" section allows administrators to configure and manage global tools that can be used across all Jenkins jobs. These tools typically include build tools, version control tools, JDK installations, and other command-line utilities required for software development and build processes.
